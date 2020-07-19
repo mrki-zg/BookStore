@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookStore.Data;
 using BookStore.Data.Models;
@@ -23,7 +22,7 @@ namespace BookStore.Web.Repository
 
         public async Task<Book> Get(int id)
         {
-            return await _context.Book.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
+            return await _context.Book.Include(b => b.Author).AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<int> Create(Book newBook)

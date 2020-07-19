@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using BookStore.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BookStore.Web.Models;
+using BookStore.Web.Models.Book;
 using BookStore.Web.Repository;
 
 namespace BookStore.Web.Controllers
@@ -25,7 +23,22 @@ namespace BookStore.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var books = await _bookRepository.GetAll();
-            ViewData["Books"] = books;
+
+            var booksData = new List<BookCardViewModel>(books.Count);
+            foreach (var book in books)
+            {
+                booksData.Add(new BookCardViewModel
+                {
+                    AuthorFirstName = book.Author.FirstName,
+                    AuthorLastName = book.Author.LastName,
+                    Summary = book.Summary,
+                    Price = book.Price,
+                    Title = book.Title,
+                    BookId = book.Id
+                });
+            }
+
+            ViewData["Books"] = booksData;
 
             return View();
         }
