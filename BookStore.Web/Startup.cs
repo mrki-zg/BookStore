@@ -35,6 +35,7 @@ namespace BookStore.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped(typeof(IBookRepository), typeof(BookRepository));
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 
             services.AddControllersWithViews();
             services.AddRazorPages();

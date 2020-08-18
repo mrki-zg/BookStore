@@ -1,9 +1,12 @@
-public class AdminTabsViewModel
+namespace BookStore.Web.Models.Admin
 {
-    public AdminTabsViewModel(AdminTabs adminTab)
+    public class AdminTabsViewModel
     {
-        ActiveAdminTab = adminTab;
-    }
+        public AdminTabsViewModel(AdminTabs adminTab)
+        {
+            ActiveAdminTab = adminTab;
+        }
 
-    public AdminTabs ActiveAdminTab { get; }
+        public AdminTabs ActiveAdminTab { get; }
+    }
 }

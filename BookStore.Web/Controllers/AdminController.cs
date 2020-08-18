@@ -1,20 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using BookStore.Web.Models.Admin;
+using BookStore.Web.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Web.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly IUserRepository _userRepository;
+
+        public AdminController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
         public IActionResult Index() {
             return RedirectToAction(nameof(UsersManagement));
         }
 
-        public IActionResult UsersManagement()
+        public async Task<IActionResult> UsersManagement()
         {
-            return View(new UsersManagementViewModel());
+            var users = await _userRepository.GetAll();
+            return View(new UsersManagementViewModel(users));
         }
     }
 }

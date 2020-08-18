@@ -1,4 +1,7 @@
-interface IAdminTabViewModel
+namespace BookStore.Web.Models.Admin
 {
-    public AdminTabsViewModel AdminTabsViewModel { get; }
+    interface IAdminTabViewModel
+    {
+        public AdminTabsViewModel AdminTabsViewModel { get; }
+    }
 }

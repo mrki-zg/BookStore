@@ -1,7 +1,57 @@
-@model UsersManagementViewModel
+@model BookStore.Web.Models.Admin.UsersManagementViewModel
 
 @{
     ViewData["Title"] = "Admin Page";
 }
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.user-roles').multiselect();
+        });
+    </script>
+}
+
 <partial name="_AdminTabs.cshtml" model="@Model.AdminTabsViewModel" />
+
+<ul class="nav nav-pills nav-stacked mt-3 hidden">
+    <li class="nav-item">
+        <button type="button" class="btn btn-primary">Button</button>
+    </li>
+</ul>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td scope="row">@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    <div class="form-group">
+                        <select class="form-control user-roles" multiple name="roles" id="roles">
+                            @foreach (var role in Enum.GetNames(typeof(BookStore.Web.Models.Admin.UserRoles)))
+                            {
+                                @if (user.Roles.Contains(role))
+                                {
+                                    <option value="@role" selected="">@role</option>
+                                }
+                                else
+                                {
+                                    <option value="@role">@role</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

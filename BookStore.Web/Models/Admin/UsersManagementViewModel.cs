@@ -1,9 +1,17 @@
-public class UsersManagementViewModel : IAdminTabViewModel
-{
-    public UsersManagementViewModel()
-    {
-        AdminTabsViewModel = new AdminTabsViewModel(AdminTabs.UsersManagement);
-    }
+using System.Collections.Generic;
 
-    public AdminTabsViewModel AdminTabsViewModel { get; }
+namespace BookStore.Web.Models.Admin
+{
+    public class UsersManagementViewModel : IAdminTabViewModel
+    {
+        public UsersManagementViewModel(IList<User> users)
+        {
+            Users = users;
+            AdminTabsViewModel = new AdminTabsViewModel(AdminTabs.UsersManagement);
+        }
+
+        public AdminTabsViewModel AdminTabsViewModel { get; }
+
+        public IList<User> Users { get; }
+    }
 }
