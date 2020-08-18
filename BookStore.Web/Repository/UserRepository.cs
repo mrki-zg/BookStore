@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BookStore.Web.Models.Admin;
 using Microsoft.AspNetCore.Identity;
@@ -8,11 +9,13 @@ namespace BookStore.Web.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserRepository(UserManager<IdentityUser> userManager)
+        public UserRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task<IList<User>> GetAll()
@@ -51,6 +54,10 @@ namespace BookStore.Web.Repository
 
             if (user.Roles != null)
             {
+                var currentAssignedRoles = await _userManager.GetRolesAsync(identityUser);
+                await _userManager.RemoveFromRolesAsync(identityUser, currentAssignedRoles);
+
+                await VerifyUserRoleExistence(user.Roles);
                 await _userManager.AddToRolesAsync(identityUser, user.Roles);
             }
         }
@@ -64,6 +71,25 @@ namespace BookStore.Web.Repository
                 Email = identityUser.Email,
                 Roles = await _userManager.GetRolesAsync(identityUser)
             };
+        }
+
+        private async Task VerifyUserRoleExistence(IList<string> roles)
+        {
+            if (roles == null || !roles.Any())
+            {
+                return;
+            }
+
+            var currentRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+
+            var newRoles = roles.Except(currentRoles).ToList();
+            if (newRoles.Any())
+            {
+                foreach (var newRole in newRoles.Distinct())
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(newRole));
+                }
+            }
         }
     }
 }

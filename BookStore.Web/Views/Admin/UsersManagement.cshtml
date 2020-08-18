@@ -27,23 +27,7 @@
             <tr>
                 <td scope="row">@user.UserName</td>
                 <td>@user.Email</td>
-                <td>
-                    <div class="form-group">
-                        <select class="form-control user-roles" multiple name="roles" id="roles">
-                            @foreach (var role in Enum.GetNames(typeof(BookStore.Web.Models.Admin.UserRoles)))
-                            {
-                                @if (user.Roles.Contains(role))
-                                {
-                                    <option value="@role" selected="">@role</option>
-                                }
-                                else
-                                {
-                                    <option value="@role">@role</option>
-                                }
-                            }
-                        </select>
-                    </div>
-                </td>
+                <td>@string.Join(", ", user.Roles)</td>               
                 <td>
                     <a asp-controller="Admin" asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-primary" role="button">Edit</a>
                 </td>
