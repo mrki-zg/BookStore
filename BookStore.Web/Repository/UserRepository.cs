@@ -52,14 +52,22 @@ namespace BookStore.Web.Repository
             identityUser.Email = user.Email;
             identityUser.UserName = user.UserName;
 
+            await _userManager.UpdateAsync(identityUser);
+
+            var currentAssignedRoles = await _userManager.GetRolesAsync(identityUser);
+            await _userManager.RemoveFromRolesAsync(identityUser, currentAssignedRoles);
+
             if (user.Roles != null)
             {
-                var currentAssignedRoles = await _userManager.GetRolesAsync(identityUser);
-                await _userManager.RemoveFromRolesAsync(identityUser, currentAssignedRoles);
-
                 await VerifyUserRoleExistence(user.Roles);
                 await _userManager.AddToRolesAsync(identityUser, user.Roles);
             }
+        }
+
+        public async Task Delete(string id)
+        {
+            var identityUser = await _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(identityUser);
         }
 
         private async Task<User> FromIdentityUser(IdentityUser identityUser)

@@ -9,6 +9,7 @@ namespace BookStore.Web.Models.Admin
         public string Id { get; set; }
 
         [Required]
+        [RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
         public string UserName { get; set; }
 
         [Required]

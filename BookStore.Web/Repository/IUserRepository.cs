@@ -12,5 +12,7 @@ namespace BookStore.Web.Repository
         public Task<User> Get(string id);
 
         public Task Update(User user);
+
+        public Task Delete(string id);
     }
 }

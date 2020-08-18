@@ -49,5 +49,12 @@ namespace BookStore.Web.Controllers
 
             return RedirectToAction(nameof(UsersManagement));
         }
+
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            await _userRepository.Delete(id);
+
+            return RedirectToAction(nameof(UsersManagement));
+        }
     }
 }
