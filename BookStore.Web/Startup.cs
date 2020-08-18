@@ -31,6 +31,7 @@ namespace BookStore.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultBookStoreConnection")));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped(typeof(IBookRepository), typeof(BookRepository));
