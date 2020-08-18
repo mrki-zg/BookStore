@@ -8,5 +8,9 @@ namespace BookStore.Web.Repository
     public interface IUserRepository
     {
         public Task<IList<User>> GetAll();
+
+        public Task<User> Get(string id);
+
+        public Task Update(User user);
     }
 }

@@ -1,0 +1,56 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Edit User Page";
+}
+
+<form asp-controller="Admin" asp-action="EditUser" method="POST">
+    <div hidden class="form-group">
+      <label asp-for="Id"></label>
+      <input type="text" asp-for="Id" class="form-control" value="@Model.Id" />
+    </div>
+
+    <div class="form-group mt-3">
+      <label asp-for="UserName">Username</label>
+      <input type="text" asp-for="UserName" class="form-control" value="@Model.UserName" />
+    </div>
+
+    <div class="form-group">
+      <label asp-for="Email">Email</label>
+      <input type="text" asp-for="Email" class="form-control" value="@Model.Email" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Roles">Roles</label>
+        <div>
+            <select class="user-roles" multiple asp-for="Roles">
+                @foreach (var role in Enum.GetNames(typeof(UserRoles)))
+                {
+                    @if (Model.Roles.Contains(role))
+                    {
+                        <option value="@role" selected="">@role</option>
+                    }
+                    else
+                    {
+                        <option value="@role">@role</option>
+                    }
+                }
+            </select>
+        </div>        
+    </div>
+    
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Save</button>
+
+      <a asp-controller="Admin" asp-action="UsersManagement" class="btn btn-secondary ml-3" role="button">Cancel</a>
+    </div>
+        
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.user-roles').multiselect();
+        });
+    </script>
+}

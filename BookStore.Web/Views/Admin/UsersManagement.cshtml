@@ -4,21 +4,13 @@
     ViewData["Title"] = "Admin Page";
 }
 
-@section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.user-roles').multiselect();
-        });
-    </script>
-}
-
 <partial name="_AdminTabs.cshtml" model="@Model.AdminTabsViewModel" />
 
-<ul class="nav nav-pills nav-stacked mt-3 hidden">
+@* <ul class="nav nav-pills nav-stacked mt-3 hidden">
     <li class="nav-item">
         <button type="button" class="btn btn-primary">Button</button>
     </li>
-</ul>
+</ul> *@
 
 <table class="table mt-3">
     <thead>
@@ -26,6 +18,7 @@
             <th>User</th>
             <th>Email</th>
             <th>Role</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -51,7 +44,18 @@
                         </select>
                     </div>
                 </td>
+                <td>
+                    <a asp-controller="Admin" asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-primary" role="button">Edit</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.user-roles').multiselect();
+        });
+    </script>
+}
